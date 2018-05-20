@@ -9,15 +9,15 @@ import 'package:setlist/songlist/songlist.dart';
 
 class SetListWidget extends StatefulWidget {
   @override
-  SetListState createState() {
-    return SetListState();
+  SetListStateWidget createState() {
+    return SetListStateWidget();
   }
 }
 
-class SetListState extends State<SetListWidget> {
+class SetListStateWidget extends State<SetListWidget> {
   String setListDialogText;
 
-  SetListState();
+  SetListStateWidget();
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,8 @@ class SetListState extends State<SetListWidget> {
         body: StreamBuilder<List<Set>>(
           stream: setListBloc.sets,
           builder: (BuildContext context, AsyncSnapshot snapshot) {
-            if (snapshot.data == null || snapshot.data.length == 0) {
+            List<Set> list = snapshot.data;
+            if (list == null || list.length == 0) {
               return Container(
                   alignment: Alignment.center,
                   child: Text(
@@ -43,10 +44,9 @@ class SetListState extends State<SetListWidget> {
             } else {
               return ListView.builder(
                 itemBuilder: (BuildContext context, int index) {
-                  return SetListItem(
-                      snapshot.data[index], getPageRoute(snapshot.data[index]));
+                  return SetListItem(list[index], getPageRoute(list[index]));
                 },
-                itemCount: snapshot.data == null ? 0 : snapshot.data.length,
+                itemCount: list == null ? 0 : list.length,
               );
             }
           },
@@ -58,11 +58,16 @@ class SetListState extends State<SetListWidget> {
       hasNotch: false,
       child: new Row(
         mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.end,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
           IconButton(
             color: primaryColor,
             icon: Icon(Icons.file_download),
+            onPressed: () {},
+          ),
+          IconButton(
+            color: primaryColor,
+            icon: Icon(Icons.share),
             onPressed: () {},
           )
         ],
@@ -130,5 +135,5 @@ class SetListState extends State<SetListWidget> {
   }
 
   PageRoute getPageRoute(var setList) =>
-      MaterialPageRoute(builder: (context) => SongList(setList));
+      MaterialPageRoute(builder: (context) => SongList());
 }

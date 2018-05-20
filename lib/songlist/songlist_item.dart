@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:setlist/bloc/setlist_provider.dart';
-import 'package:setlist/colors.dart';
 import 'package:setlist/model/song.dart';
 
 class SongListItem extends StatelessWidget {
@@ -13,9 +11,6 @@ class SongListItem extends StatelessWidget {
     return Dismissible(
       key: Key(song.name),
       direction: DismissDirection.endToStart,
-      onDismissed: (direction) {
-        var setListBloc = SetListProvider.of(context);
-      },
       background: buildContainer(),
       child: GestureDetector(
         child: Card(
@@ -23,10 +18,6 @@ class SongListItem extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               ListTile(
-                  trailing: Icon(
-                    Icons.arrow_forward_ios,
-                    color: primaryColor,
-                  ),
                   title: Text(song.name,
                       style: TextStyle(
                           fontFamily: 'Rubik Medium', fontSize: 16.0)),

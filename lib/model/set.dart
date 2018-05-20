@@ -6,4 +6,16 @@ class Set extends Model {
   final String name;
 
   Set(this.name);
+
+  void addSong(Song song) {
+    songList.add(song);
+  }
+
+  void removeSong(Song song) {
+    songList.remove(song);
+  }
+
+  Song getIndex(int index) {
+    return songList[index];
+  }
 }

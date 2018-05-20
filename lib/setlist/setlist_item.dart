@@ -11,36 +11,39 @@ class SetListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var setListBloc = SetListProvider.of(context);
+
     return Dismissible(
       key: Key(setList.name),
       direction: DismissDirection.endToStart,
       onDismissed: (direction) {
-        var setListBloc = SetListProvider.of(context);
         setListBloc.remove.add(setList);
       },
       background: buildContainer(),
       child: GestureDetector(
-        child: Card(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              ListTile(
-                  trailing: Icon(
-                    Icons.arrow_forward_ios,
-                    color: primaryColor,
-                  ),
-                  title: Text(setList.name,
-                      style: TextStyle(
-                          fontFamily: 'Rubik Medium', fontSize: 16.0)),
-                  subtitle: Text(
-                    "Songs ${setList.songList.length.toString()}",
-                    style: TextStyle(fontSize: 12.0),
-                  )),
-            ],
+          child: Card(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                ListTile(
+                    trailing: Icon(
+                      Icons.arrow_forward_ios,
+                      color: primaryColor,
+                    ),
+                    title: Text(setList.name,
+                        style: TextStyle(
+                            fontFamily: 'Rubik Medium', fontSize: 16.0)),
+                    subtitle: Text(
+                      "Songs ${setList.songList.length.toString()}",
+                      style: TextStyle(fontSize: 12.0),
+                    )),
+              ],
+            ),
           ),
-        ),
-        onTap: () => Navigator.push(context, route),
-      ),
+          onTap: () {
+            setListBloc.selected.add(setList);
+            Navigator.push(context, route);
+          }),
     );
   }
 
