@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:rxdart/rxdart.dart';
 import 'package:setlist/model/set.dart';
 import 'package:setlist/model/setlist.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SetListBloc {
   SetList _sets = SetList();
@@ -28,10 +29,13 @@ class SetListBloc {
   Stream<Set> get selectedSet => _selectedSet.stream;
 
   SetListBloc() {
+    getSetList();
     _additionController.stream.listen((addition) {
       if (addition != null) {
         _sets.addSet(addition);
         _items.add(_sets.sets);
+
+        updateSetList(_sets.toJson());
       }
     });
 
@@ -47,5 +51,22 @@ class SetListBloc {
         _selectedSet.add(selectedSet);
       }
     });
+  }
+
+  Future<SetList> getSetList() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var setListJson = prefs.getString("setListKey");
+    new SetList.fromJson(setListJson);
+  }
+
+  updateSetList(Map setList) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString("setListKey", setList.toString());
+  }
+
+  void dispose() {
+    selected.close();
+    addition.close();
+    remove.close();
   }
 }

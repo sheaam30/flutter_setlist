@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:scoped_model/scoped_model.dart';
 import 'package:setlist/model/set.dart';
 
@@ -16,5 +18,15 @@ class SetList extends Model {
 
   void removeSet(Set set) {
     sets.remove(set);
+  }
+
+  toJson() {
+    return {"sets": sets.asMap()};
+  }
+
+  SetList.fromJson(String setString) {
+    List<Map> parsedJson = json.decode(setString);
+    sets = parsedJson[0]["sets"];
+    print(sets);
   }
 }

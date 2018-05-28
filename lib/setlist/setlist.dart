@@ -16,8 +16,16 @@ class SetListWidget extends StatefulWidget {
 
 class SetListStateWidget extends State<SetListWidget> {
   String setListDialogText;
+  SetListBloc setListBloc;
 
   SetListStateWidget();
+
+  @override
+  void dispose() {
+    if (setListBloc != null) {
+      setListBloc.dispose();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -135,5 +143,5 @@ class SetListStateWidget extends State<SetListWidget> {
   }
 
   PageRoute getPageRoute(var setList) =>
-      MaterialPageRoute(builder: (context) => SongList());
+      MaterialPageRoute(builder: (context) => SongList(setList.name));
 }

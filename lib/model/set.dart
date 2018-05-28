@@ -3,7 +3,7 @@ import 'package:setlist/model/song.dart';
 
 class Set extends Model {
   List<Song> songList = List();
-  final String name;
+  String name;
 
   Set(this.name);
 
@@ -17,5 +17,12 @@ class Set extends Model {
 
   Song getIndex(int index) {
     return songList[index];
+  }
+
+  toJson() {
+    return {
+      "name": name,
+      "songList": songList.map((song) => song.toJson()).toList().toString()
+    };
   }
 }

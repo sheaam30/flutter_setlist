@@ -5,4 +5,8 @@ class Song extends Model {
   String artist;
 
   Song(this.name, this.artist);
+
+  toJson() {
+    return {"name": name, "artist": artist};
+  }
 }
