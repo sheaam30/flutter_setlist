@@ -1,33 +1,52 @@
+import 'dart:async';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:setlist/bloc/setlist_provider.dart';
-import 'package:setlist/bloc/setlistbloc.dart';
+import 'package:setlist/api/Api.dart';
 import 'package:setlist/colors.dart';
 import 'package:setlist/login/login_bloc.dart';
 import 'package:setlist/login/login_page.dart';
 import 'package:setlist/setlist/setlist.dart';
 
-void main() => runApp(new MyApp());
+Future<void> main() async {
+  final FirebaseApp app = await FirebaseApp.configure(
+    name: 'SetList',
+    options: const FirebaseOptions(
+      googleAppID: '1:700827434064:android:33d42b35441389ec',
+      gcmSenderID: '700827434064',
+      databaseURL: 'https://setlist-91ac5.firebaseio.com',
+      apiKey: 'AIzaSyD5MKxqKu3sLzyTuhARIKLHNdasA08dm-A',
+      projectID: 'setlist-91ac5',
+    ),
+  );
+  final Firestore firestore = new Firestore(app: app);
+
+  Api.initialize(firestore);
+
+  runApp(new MyApp(firestore));
+}
 
 class MyApp extends StatelessWidget {
-  final LoginBloc loginBloc = LoginBloc();
+  final LoginBloc _loginBloc;
+  final Firestore firestore;
+  CollectionReference get messages => firestore.collection('messages');
+
+  MyApp(this.firestore) : _loginBloc = LoginBloc();
 
   @override
   Widget build(BuildContext context) {
-    return SetListProvider(
-      setListBloc: SetListBloc(),
-      child: MaterialApp(
-        theme: _buildDefaultTheme(),
-        home: StreamBuilder(
-          stream: loginBloc.authStateChanged,
-          builder:
-              (BuildContext context, AsyncSnapshot<FirebaseUser> snapshot) {
-            if (snapshot.hasData) {
-              return SetListWidget();
-            }
-            return LoginPage();
-          },
-        ),
+    return MaterialApp(
+      theme: _buildDefaultTheme(),
+      home: StreamBuilder(
+        stream: _loginBloc.authStateChanged,
+        builder: (BuildContext context, AsyncSnapshot<FirebaseUser> snapshot) {
+          if (snapshot.hasData) {
+            return SetListWidget(snapshot.data);
+          }
+          return LoginPage();
+        },
       ),
     );
   }

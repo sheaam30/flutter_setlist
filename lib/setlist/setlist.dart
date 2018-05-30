@@ -1,13 +1,17 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:setlist/bloc/setlist_provider.dart';
-import 'package:setlist/bloc/setlistbloc.dart';
 import 'package:setlist/colors.dart';
-import 'package:setlist/model/set.dart';
+import 'package:setlist/model/setlist.dart';
+import 'package:setlist/setlist/setlist_bloc.dart';
 import 'package:setlist/setlist/setlist_item.dart';
 import 'package:setlist/songlist/songlist.dart';
 
 class SetListWidget extends StatefulWidget {
+  final FirebaseUser firebaseUser;
+
+  SetListWidget(this.firebaseUser);
+
   @override
   SetListStateWidget createState() {
     return SetListStateWidget();
@@ -16,32 +20,23 @@ class SetListWidget extends StatefulWidget {
 
 class SetListStateWidget extends State<SetListWidget> {
   String setListDialogText;
-  SetListBloc setListBloc;
 
   SetListStateWidget();
 
   @override
-  void dispose() {
-    if (setListBloc != null) {
-      setListBloc.dispose();
-    }
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final setListBloc = SetListProvider.of(context);
+    final setListBlc = SetListBloc();
 
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
 
     return Scaffold(
         backgroundColor: backgroundColor,
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        floatingActionButton: _getFab(setListBloc),
+        floatingActionButton: _getFab(),
         bottomNavigationBar: buildBottomAppBar(),
         body: StreamBuilder<List<Set>>(
-          stream: setListBloc.sets,
           builder: (BuildContext context, AsyncSnapshot snapshot) {
-            List<Set> list = snapshot.data;
+            List<SetList> list = snapshot.data;
             if (list == null || list.length == 0) {
               return Container(
                   alignment: Alignment.center,
@@ -83,7 +78,7 @@ class SetListStateWidget extends State<SetListWidget> {
     );
   }
 
-  FloatingActionButton _getFab(SetListBloc setListBloc) {
+  FloatingActionButton _getFab() {
     return FloatingActionButton.extended(
       elevation: 4.0,
       icon: const Icon(
@@ -134,9 +129,7 @@ class SetListStateWidget extends State<SetListWidget> {
                 ],
               );
             }).then((value) {
-          if (value != null) {
-            setListBloc.addition.add(Set(value));
-          }
+          if (value != null) {}
         });
       },
     );

@@ -3,9 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:setlist/bloc/setlist_provider.dart';
 import 'package:setlist/colors.dart';
-import 'package:setlist/model/set.dart';
 import 'package:setlist/songlist/addsong_item.dart';
 import 'package:setlist/songlist/songlist_item.dart';
 
@@ -30,9 +28,7 @@ class SongListState extends State<SongList> {
 
   @override
   Widget build(BuildContext context) {
-    final setListBloc = SetListProvider.of(context);
     return StreamBuilder<Set>(
-      stream: setListBloc.selectedSet,
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if (snapshot.data == null) {
           return Column();

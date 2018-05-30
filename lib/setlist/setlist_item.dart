@@ -1,24 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:setlist/bloc/setlist_provider.dart';
 import 'package:setlist/colors.dart';
-import 'package:setlist/model/set.dart';
+import 'package:setlist/model/setlist.dart';
 
 class SetListItem extends StatelessWidget {
-  final Set setList;
+  final SetList setList;
   final PageRoute route;
 
   SetListItem(this.setList, this.route);
 
   @override
   Widget build(BuildContext context) {
-    var setListBloc = SetListProvider.of(context);
-
     return Dismissible(
       key: Key(setList.name),
       direction: DismissDirection.endToStart,
-      onDismissed: (direction) {
-        setListBloc.remove.add(setList);
-      },
       background: buildContainer(),
       child: GestureDetector(
           child: Card(
@@ -41,7 +35,6 @@ class SetListItem extends StatelessWidget {
             ),
           ),
           onTap: () {
-            setListBloc.selected.add(setList);
             Navigator.push(context, route);
           }),
     );

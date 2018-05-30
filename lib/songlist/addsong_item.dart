@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:setlist/bloc/setlist_provider.dart';
 import 'package:setlist/colors.dart';
-import 'package:setlist/model/set.dart';
 import 'package:setlist/model/song.dart';
 
 class AddSongItem extends StatelessWidget {
@@ -11,8 +9,6 @@ class AddSongItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final setListBloc = SetListProvider.of(context);
-
     String songName;
     String songArtist;
 
@@ -79,10 +75,7 @@ class AddSongItem extends StatelessWidget {
                     ],
                   );
                 }).then((value) {
-              if (value != null) {
-                set.addSong(value);
-                setListBloc.selected.add(set);
-              }
+              if (value != null) {}
             });
           },
         )

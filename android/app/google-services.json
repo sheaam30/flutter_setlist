@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "700827434064-ecd4tp7q0v8fasm8c574l1oic92im0dk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "shealabs.setlist",
+            "certificate_hash": "7e470e5204847cc364996b87a1e88a63ca852d60"
+          }
+        },
+        {
           "client_id": "700827434064-hdh4dssa00ehq9tfl136p736v8iopd3r.apps.googleusercontent.com",
           "client_type": 3
         },
@@ -33,8 +41,20 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "700827434064-b6urbn4lp933sb3cghsk0i5i8k6sovot.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "shealabs.setlist"
+              }
+            },
+            {
+              "client_id": "700827434064-hdh4dssa00ehq9tfl136p736v8iopd3r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2

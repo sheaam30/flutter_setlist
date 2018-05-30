@@ -1,32 +1,31 @@
-import 'dart:convert';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:scoped_model/scoped_model.dart';
-import 'package:setlist/model/set.dart';
+import 'package:setlist/model/song.dart';
 
 class SetList extends Model {
-  var sets = List<Set>();
+  List<Song> songList = List();
+  String name;
 
-  SetList();
+  SetList(this.name);
 
-  Set getIndex(int index) {
-    return sets[index];
+  void addSong(Song song) {
+    songList.add(song);
   }
 
-  void addSet(Set set) {
-    sets.add(set);
+  void removeSong(Song song) {
+    songList.remove(song);
   }
 
-  void removeSet(Set set) {
-    sets.remove(set);
+  Song getIndex(int index) {
+    return songList[index];
   }
 
-  toJson() {
-    return {"sets": sets.asMap()};
-  }
+  static SetList fromSnapshot(DocumentSnapshot document) {}
 
-  SetList.fromJson(String setString) {
-    List<Map> parsedJson = json.decode(setString);
-    sets = parsedJson[0]["sets"];
-    print(sets);
+  toMap() {
+    return {
+      "name": name,
+      "songList": songList.map((song) => song.toJson()).toList()
+    };
   }
 }
