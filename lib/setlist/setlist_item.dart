@@ -5,8 +5,9 @@ import 'package:setlist/model/setlist.dart';
 class SetListItem extends StatelessWidget {
   final SetList setList;
   final PageRoute route;
+  final Function dismissFunction;
 
-  SetListItem(this.setList, this.route);
+  SetListItem(this.setList, this.route, this.dismissFunction);
 
   @override
   Widget build(BuildContext context) {
@@ -14,6 +15,7 @@ class SetListItem extends StatelessWidget {
       key: Key(setList.name),
       direction: DismissDirection.endToStart,
       background: buildContainer(),
+      onDismissed: (direction) => dismissFunction(),
       child: GestureDetector(
           child: Card(
             child: Column(

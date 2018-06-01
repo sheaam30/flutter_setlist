@@ -27,11 +27,19 @@ class Api {
         .catchError((onError) => print(onError));
   }
 
+  void removeSet(String uid, SetList set) async {
+    await _setsRef
+        .document(nameUserHash(uid, set.name))
+        .delete()
+        .whenComplete(() => print("${set.name} Deleted"))
+        .catchError((onError) => print(onError));
+  }
+
   void updateSetList(String userId, SetList setList) async {
     await _setsRef
         .document(nameUserHash(userId, setList.name))
         .setData(setList.toMap(userId))
-        .whenComplete(() => print("Song Added"))
+        .whenComplete(() => print("Updated: ${setList.name}"))
         .catchError((onError) => print(onError));
   }
 

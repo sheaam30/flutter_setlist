@@ -3,8 +3,9 @@ import 'package:setlist/model/song.dart';
 
 class SongListItem extends StatelessWidget {
   final Song song;
+  final Function dismissFunction;
 
-  SongListItem(this.song);
+  SongListItem(this.song, this.dismissFunction);
 
   @override
   Widget build(BuildContext context) {
@@ -12,6 +13,7 @@ class SongListItem extends StatelessWidget {
       key: Key(song.name),
       direction: DismissDirection.endToStart,
       background: buildContainer(),
+      onDismissed: (direction) => dismissFunction(),
       child: GestureDetector(
         child: Card(
           child: Column(

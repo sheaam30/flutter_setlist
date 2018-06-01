@@ -14,4 +14,15 @@ class Song extends Model {
   toMap() {
     return {"name": name, "artist": artist, "dateAdded": dateAdded};
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Song &&
+          runtimeType == other.runtimeType &&
+          name == other.name &&
+          artist == other.artist;
+
+  @override
+  int get hashCode => name.hashCode ^ artist.hashCode;
 }

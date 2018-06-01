@@ -16,8 +16,9 @@ class SetList extends Model {
     return this;
   }
 
-  void removeSong(Song song) {
+  SetList removeSong(Song song) {
     _songList.remove(song);
+    return this;
   }
 
   Song getIndex(int index) {

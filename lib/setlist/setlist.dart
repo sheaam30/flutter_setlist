@@ -110,7 +110,8 @@ class SetListStateWidget extends State<SetListWidget> {
   Widget _buildListView(List<SetList> list) {
     return ListView.builder(
       itemBuilder: (BuildContext context, int index) {
-        return SetListItem(list[index], getPageRoute(list[index]));
+        return SetListItem(list[index], getPageRoute(list[index]),
+            () => _setListBloc.deleteSet.add(list[index]));
       },
       itemCount: list == null ? 0 : list.length,
     );

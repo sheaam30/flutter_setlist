@@ -54,7 +54,8 @@ class SongListState extends State<SongList> {
                 index == setList.songList.length) {
               return AddSongItem(_songListBloc);
             } else {
-              return SongListItem(setList.songList[index]);
+              return SongListItem(setList.songList[index],
+                  () => _songListBloc.deleteSong.add(setList.songList[index]));
             }
           },
           itemCount: setList == null ? 1 : setList.songList.length + 1,

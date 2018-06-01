@@ -18,6 +18,9 @@ class SetListBloc {
   StreamController<SetList> _addSet = StreamController.broadcast(sync: true);
   Sink<SetList> get addSet => _addSet;
 
+  StreamController<SetList> _deleteSet = StreamController.broadcast(sync: true);
+  Sink<SetList> get deleteSet => _deleteSet;
+
   Stream<SetListResult> get setLists {
     return _api
         .fetchSetListsForUser(_firebaseUser.uid)
@@ -26,6 +29,7 @@ class SetListBloc {
 
   SetListBloc(this._api, this._firebaseUser) {
     _addSet.stream.listen((set) => _api.addSet(_firebaseUser.uid, set));
+    _deleteSet.stream.listen((set) => _api.removeSet(_firebaseUser.uid, set));
   }
 
   void dispose() {
