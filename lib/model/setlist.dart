@@ -3,29 +3,44 @@ import 'package:scoped_model/scoped_model.dart';
 import 'package:setlist/model/song.dart';
 
 class SetList extends Model {
-  List<Song> songList = List();
-  String name;
+  List<Song> _songList = List();
+  String _name;
 
-  SetList(this.name);
+  get name => _name;
+  get songList => _songList;
 
-  void addSong(Song song) {
-    songList.add(song);
+  SetList(this._name);
+
+  SetList addSong(Song song) {
+    _songList.add(song);
+    return this;
   }
 
   void removeSong(Song song) {
-    songList.remove(song);
+    _songList.remove(song);
   }
 
   Song getIndex(int index) {
-    return songList[index];
+    return _songList[index];
   }
 
-  static SetList fromSnapshot(DocumentSnapshot document) {}
+  static SetList fromSnapshot(DocumentSnapshot document) {
+    List<Song> songList = List();
 
-  toMap() {
+    List list = document.data['songList'];
+    for (int i = 0; i < list.length; i++) {
+      songList.add(
+          Song.fromSnapshot(new Map<String, dynamic>.from(list.elementAt(i))));
+    }
+
+    return SetList(document.data['name']).._songList = songList;
+  }
+
+  toMap(String userId) {
     return {
-      "name": name,
-      "songList": songList.map((song) => song.toJson()).toList()
+      "userId": userId,
+      "name": _name,
+      "songList": _songList.map((song) => song.toMap()).toList()
     };
   }
 }

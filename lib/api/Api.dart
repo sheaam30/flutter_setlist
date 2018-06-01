@@ -19,22 +19,44 @@ class Api {
     return api;
   }
 
-  void addSet(SetList set) async {
-    await _setsRef.document(set.name).setData(set.toMap()).whenComplete(() {
-      print("Complete");
-    }).catchError((onError) {
-      print(onError);
-    });
+  void addSet(String userId, SetList setList) async {
+    await _setsRef
+        .document(nameUserHash(userId, setList.name))
+        .setData(setList.toMap(userId))
+        .whenComplete(() => print("Complete"))
+        .catchError((onError) => print(onError));
   }
 
-  Stream<List<SetList>> fetchSetListForUser(String userID) {
+  void updateSetList(String userId, SetList setList) async {
+    await _setsRef
+        .document(nameUserHash(userId, setList.name))
+        .setData(setList.toMap(userId))
+        .whenComplete(() => print("Song Added"))
+        .catchError((onError) => print(onError));
+  }
+
+  Stream<List<SetList>> fetchSetListsForUser(String userId) {
     return _setsRef
-        .where('userID', isEqualTo: userID)
+        .where('userId', isEqualTo: userId)
         .snapshots
         .asyncMap((QuerySnapshot snapshot) {
       return snapshot.documents.map((DocumentSnapshot document) {
         return SetList.fromSnapshot(document);
       }).toList();
     });
+  }
+
+  Stream<SetList> fetchSetListForUser(String setListName, String userId) {
+    return _setsRef
+        .where('userId', isEqualTo: userId)
+        .where('name', isEqualTo: setListName)
+        .snapshots
+        .asyncMap((QuerySnapshot snapshot) {
+      return SetList.fromSnapshot(snapshot.documents.first);
+    });
+  }
+
+  String nameUserHash(String userId, String setListName) {
+    return "${userId.hashCode + setListName.hashCode}";
   }
 }

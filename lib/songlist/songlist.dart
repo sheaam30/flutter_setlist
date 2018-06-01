@@ -1,62 +1,63 @@
-import 'dart:async';
-import 'dart:convert';
-
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:setlist/api/Api.dart';
 import 'package:setlist/colors.dart';
+import 'package:setlist/model/setlist.dart';
 import 'package:setlist/songlist/addsong_item.dart';
+import 'package:setlist/songlist/songlist_bloc.dart';
 import 'package:setlist/songlist/songlist_item.dart';
 
 class SongList extends StatefulWidget {
-  final String setTitle;
+  final SetList _setList;
+  final FirebaseUser _firebaseUser;
 
-  SongList(this.setTitle);
+  SongList(this._firebaseUser, this._setList);
 
   @override
-  SongListState createState() => SongListState();
+  SongListState createState() => SongListState(_firebaseUser, _setList);
 }
 
 class SongListState extends State<SongList> {
-  SongListState();
+  final SongListBloc _songListBloc;
+  final SetList _setList;
+  final FirebaseUser _firebaseUser;
 
-  Future<String> fetchTrack(String url) async {
-    final response = await http.get(url);
-    final responseJson = json.decode(response.body);
-
-    return responseJson;
-  }
+  SongListState(this._firebaseUser, this._setList)
+      : _songListBloc = SongListBloc(_firebaseUser, _setList, Api.api);
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<Set>(
-      builder: (BuildContext context, AsyncSnapshot snapshot) {
+    return StreamBuilder<SetListResult>(
+      stream: _songListBloc.setList,
+      builder: (BuildContext context, AsyncSnapshot<SetListResult> snapshot) {
         if (snapshot.data == null) {
-          return Column();
+          return Center(
+            child: CircularProgressIndicator(),
+          );
         } else {
-          return songList(snapshot);
+          return songList(snapshot.data.results);
         }
       },
     );
   }
 
-  Widget songList(AsyncSnapshot snapshot) {
+  Widget songList(SetList setList) {
     return Scaffold(
         backgroundColor: backgroundColor,
         appBar: AppBar(
-          title: Text(snapshot.data.name),
+          title: Text(_setList.name),
         ),
         body: ListView.builder(
           itemBuilder: (BuildContext context, int index) {
-            if (snapshot.data == null ||
-                snapshot.data.songList.length == 0 ||
-                index == snapshot.data.songList.length) {
-              return AddSongItem(snapshot.data);
+            if (setList == null ||
+                setList.songList.length == 0 ||
+                index == setList.songList.length) {
+              return AddSongItem(_songListBloc);
             } else {
-              return SongListItem(snapshot.data.songList[index]);
+              return SongListItem(setList.songList[index]);
             }
           },
-          itemCount:
-              snapshot.data == null ? 1 : snapshot.data.songList.length + 1,
+          itemCount: setList == null ? 1 : setList.songList.length + 1,
         ));
   }
 }
