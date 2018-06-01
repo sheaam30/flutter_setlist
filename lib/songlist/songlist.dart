@@ -45,6 +45,7 @@ class SongListState extends State<SongList> {
     return Scaffold(
         backgroundColor: backgroundColor,
         appBar: AppBar(
+          backgroundColor: Colors.white,
           title: Text(_setList.name),
         ),
         body: ListView.builder(
