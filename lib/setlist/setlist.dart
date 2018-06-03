@@ -36,7 +36,7 @@ class SetListStateWidget extends State<SetListWidget> {
         backgroundColor: backgroundColor,
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         floatingActionButton: _getFab(),
-        bottomNavigationBar: buildBottomAppBar(),
+//        bottomNavigationBar: buildBottomAppBar(),
         body: StreamBuilder(
           stream: _setListBloc.setLists,
           builder: (_, AsyncSnapshot<SetListResult> snapshot) {
@@ -73,34 +73,37 @@ class SetListStateWidget extends State<SetListWidget> {
             color: primaryColor,
             icon: Icon(Icons.share),
             onPressed: () {},
-          )
+          ),
         ],
       ),
     );
   }
 
-  FloatingActionButton _getFab() {
-    return FloatingActionButton.extended(
-      elevation: 4.0,
-      icon: const Icon(
-        Icons.add,
-        color: Colors.white70,
+  Widget _getFab() {
+    return new Padding(
+      padding: const EdgeInsets.only(bottom: 16.0),
+      child: FloatingActionButton.extended(
+        elevation: 4.0,
+        icon: const Icon(
+          Icons.add,
+          color: Colors.white70,
+        ),
+        label: const Text(
+          'Add a Set',
+          style: TextStyle(color: Colors.white70),
+        ),
+        onPressed: () {
+          showDialog(
+              context: context,
+              builder: (_) {
+                return _addSetDialog();
+              }).then((setListName) {
+            if (setListName != null) {
+              _setListBloc.addSet.add(SetList(setListName));
+            }
+          });
+        },
       ),
-      label: const Text(
-        'Add a Set',
-        style: TextStyle(color: Colors.white70),
-      ),
-      onPressed: () {
-        showDialog(
-            context: context,
-            builder: (_) {
-              return _addSetDialog();
-            }).then((setListName) {
-          if (setListName != null) {
-            _setListBloc.addSet.add(SetList(setListName));
-          }
-        });
-      },
     );
   }
 
@@ -118,37 +121,49 @@ class SetListStateWidget extends State<SetListWidget> {
   }
 
   Widget _addSetDialog() {
+    final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
+    final myController = new TextEditingController();
+
     return SimpleDialog(
       title: Text(
         "Add Set",
         textAlign: TextAlign.center,
       ),
       children: <Widget>[
-        Column(
-          children: <Widget>[
-            TextField(
-              autofocus: true,
-              onChanged: (string) {
-                setListDialogText = string;
-              },
-              decoration: InputDecoration(
-                  border: InputBorder.none,
-                  contentPadding: EdgeInsets.fromLTRB(16.0, 0.0, 0.0, 16.0),
-                  hintText: "Enter Set Name"),
-            ),
-            RaisedButton(
-              padding: EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 0.0),
-              child: Text(
-                "Submit",
-                style: TextStyle(color: Colors.white70),
+        Form(
+          key: _formKey,
+          child: Column(
+            children: <Widget>[
+              TextFormField(
+                controller: myController,
+                autofocus: true,
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return 'Please enter a name';
+                  }
+                },
+                decoration: InputDecoration(
+                    border: InputBorder.none,
+                    contentPadding: EdgeInsets.fromLTRB(16.0, 0.0, 0.0, 16.0),
+                    hintText: "Enter Set Name"),
               ),
-              onPressed: () {
-                Navigator.pop(context, setListDialogText);
-              },
-              color: primaryColor,
-            )
-          ],
-        ),
+              RaisedButton(
+                padding: EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 0.0),
+                child: Text(
+                  "Submit",
+                  style: TextStyle(color: Colors.white70),
+                ),
+                onPressed: () {
+                  if (_formKey.currentState.validate()) {
+                    Navigator.pop(context, myController.text);
+                    myController.dispose();
+                  }
+                },
+                color: primaryColor,
+              )
+            ],
+          ),
+        )
       ],
     );
   }

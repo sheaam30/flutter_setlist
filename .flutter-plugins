@@ -1,6 +1,6 @@
 cloud_firestore=E:\\flutter\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\cloud_firestore-0.6.3\\
-firebase_auth=E:\\flutter\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\firebase_auth-0.5.10\\
-firebase_core=E:\\flutter\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\firebase_core-0.2.3\\
+firebase_auth=E:\\flutter\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\firebase_auth-0.5.11\\
+firebase_core=E:\\flutter\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\firebase_core-0.2.4\\
 firebase_database=E:\\flutter\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\firebase_database-0.4.6\\
-google_sign_in=E:\\flutter\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\google_sign_in-3.0.3+1\\
-shared_preferences=E:\\flutter\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\shared_preferences-0.4.1\\
+google_sign_in=E:\\flutter\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\google_sign_in-3.0.4\\
+shared_preferences=E:\\flutter\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\shared_preferences-0.4.2\\

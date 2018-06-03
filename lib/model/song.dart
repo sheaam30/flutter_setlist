@@ -1,18 +1,20 @@
+import 'package:meta/meta.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class Song extends Model {
+  @required
   String name;
-  String artist;
-  DateTime dateAdded;
+  String artist = "";
+  String imageUrl;
 
-  Song(this.name, this.artist, this.dateAdded);
+  Song(this.name, [this.artist, this.imageUrl]);
 
   static Song fromSnapshot(Map<String, dynamic> json) {
-    return Song(json['name'], json['artist'], json['dateAdded']);
+    return Song(json['name'], json['artist'], json['imageUrl']);
   }
 
   toMap() {
-    return {"name": name, "artist": artist, "dateAdded": dateAdded};
+    return {"name": name, "artist": artist, "imageUrl": imageUrl};
   }
 
   @override
@@ -21,8 +23,9 @@ class Song extends Model {
       other is Song &&
           runtimeType == other.runtimeType &&
           name == other.name &&
-          artist == other.artist;
+          artist == other.artist &&
+          imageUrl == other.imageUrl;
 
   @override
-  int get hashCode => name.hashCode ^ artist.hashCode;
+  int get hashCode => name.hashCode ^ artist.hashCode ^ imageUrl.hashCode;
 }

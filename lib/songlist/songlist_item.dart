@@ -20,11 +20,14 @@ class SongListItem extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               ListTile(
+                  leading: song.imageUrl == null
+                      ? Opacity(opacity: 0.0)
+                      : Image.network(song.imageUrl),
                   title: Text(song.name,
                       style: TextStyle(
                           fontFamily: 'Rubik Medium', fontSize: 16.0)),
                   subtitle: Text(
-                    song.artist,
+                    song.artist == null ? "" : song.artist,
                     style: TextStyle(fontSize: 12.0),
                   )),
             ],

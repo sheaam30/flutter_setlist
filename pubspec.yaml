@@ -33,6 +33,10 @@ flutter:
   # the material Icons class.
   uses-material-design: true
 
+  assets:
+    - assets/google_logo.png
+    - assets/setlist_icon.png
+
   fonts:
     - family: Rubik Bold
       fonts:

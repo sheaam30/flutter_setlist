@@ -29,25 +29,33 @@ Future<void> main() async {
 }
 
 class MyApp extends StatelessWidget {
-  final LoginBloc _loginBloc;
   final Firestore firestore;
-  CollectionReference get messages => firestore.collection('messages');
+  final LoginBloc _loginBloc;
+
+  bool firstNullData = false;
 
   MyApp(this.firestore) : _loginBloc = LoginBloc();
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: _buildDefaultTheme(),
-      home: StreamBuilder(
-        stream: _loginBloc.authStateChanged,
-        builder: (BuildContext context, AsyncSnapshot<FirebaseUser> snapshot) {
-          if (snapshot.hasData) {
-            return SetListWidget(snapshot.data);
-          }
+    return MaterialApp(theme: _buildDefaultTheme(), home: buildHomeWidget());
+  }
+
+  Widget buildHomeWidget() {
+    return StreamBuilder(
+      stream: _loginBloc.authStateChanged,
+      builder: (BuildContext context, AsyncSnapshot<FirebaseUser> snapshot) {
+        if (!snapshot.hasData && !firstNullData) {
+          firstNullData = true;
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        } else if (snapshot.hasData) {
+          return SetListWidget(snapshot.data);
+        } else {
           return LoginPage();
-        },
-      ),
+        }
+      },
     );
   }
 

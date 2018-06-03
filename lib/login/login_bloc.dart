@@ -14,6 +14,9 @@ class LoginBloc {
   Stream<FirebaseUser> get authStateChanged =>
       _authManager.firebaseInstance.onAuthStateChanged;
 
+  Future<FirebaseUser> get currentUser =>
+      _authManager.firebaseInstance.currentUser();
+
   LoginBloc() {
     _signIn.stream.listen((_) => _authManager.signInWithGoogle());
     _signOut.stream.listen((_) => _authManager.signOutWithGoogle());

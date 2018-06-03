@@ -34,5 +34,6 @@ class SetListBloc {
 
   void dispose() {
     _addSet.close();
+    _deleteSet.close();
   }
 }
