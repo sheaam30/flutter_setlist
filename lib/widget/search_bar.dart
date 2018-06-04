@@ -147,11 +147,9 @@ class SearchBar {
     Color textColor = inBar ? Colors.white70 : Colors.black54;
 
     return new AppBar(
-      leading: new IconButton(
-          icon: new Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-          }),
+      leading: BackButton(
+        color: Colors.white70,
+      ),
       backgroundColor: barColor,
       title: new Directionality(
           textDirection: Directionality.of(context),
@@ -162,16 +160,8 @@ class SearchBar {
             decoration: new InputDecoration(
                 hintText: hintText,
                 hintStyle: new TextStyle(color: textColor, fontSize: 16.0),
-                border: null),
+                border: InputBorder.none),
             onSubmitted: (String val) async {
-//              if (closeOnSubmit) {
-//                await Navigator.maybePop(context);
-//              }
-//
-//              if (clearOnSubmit) {
-//                controller.clear();
-//              }
-
               onSubmitted(val);
             },
             autofocus: true,
@@ -183,7 +173,8 @@ class SearchBar {
               // Show an icon if clear is not active, so there's no ripple on tap
               new IconButton(
                   icon: new Icon(Icons.clear,
-                      color: _clearActive ? buttonColor : buttonDisabledColor),
+                      color:
+                          _clearActive ? Colors.white70 : buttonDisabledColor),
                   disabledColor: buttonDisabledColor,
                   onPressed: !_clearActive
                       ? null
@@ -202,7 +193,9 @@ class SearchBar {
   /// Put this inside your [buildDefaultAppBar] method!
   IconButton getSearchAction(BuildContext context) {
     return new IconButton(
-        icon: new Icon(Icons.search),
+        icon: new Icon(
+          Icons.search,
+        ),
         onPressed: () {
           beginSearch(context);
         });

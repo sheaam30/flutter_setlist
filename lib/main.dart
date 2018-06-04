@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:setlist/api/Api.dart';
@@ -44,7 +43,7 @@ class MyApp extends StatelessWidget {
   Widget buildHomeWidget() {
     return StreamBuilder(
       stream: _loginBloc.authStateChanged,
-      builder: (BuildContext context, AsyncSnapshot<FirebaseUser> snapshot) {
+      builder: (_, snapshot) {
         if (!snapshot.hasData && !firstNullData) {
           firstNullData = true;
           return Center(
@@ -61,9 +60,16 @@ class MyApp extends StatelessWidget {
 
   ThemeData _buildDefaultTheme() {
     return new ThemeData(
-        primaryColor: primaryLightColor,
+        buttonColor: primaryColor,
+        primaryColor: primaryColor,
         accentColor: primaryColor,
+        primaryTextTheme: TextTheme(title: TextStyle(color: Colors.white70)),
         backgroundColor: backgroundColor,
+        chipTheme: ChipThemeData.fromDefaults(
+            primaryColor: Colors.white,
+            labelStyle:
+                TextStyle(color: Colors.white, fontFamily: 'Rubik Light'),
+            secondaryColor: secondaryColor),
         fontFamily: "Rubik Regular");
   }
 }

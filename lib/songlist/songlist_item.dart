@@ -9,32 +9,11 @@ class SongListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Dismissible(
-      key: Key(song.name),
-      direction: DismissDirection.endToStart,
-      background: buildContainer(),
-      onDismissed: (direction) => dismissFunction(),
-      child: GestureDetector(
-        child: Card(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              ListTile(
-                  leading: song.imageUrl == null
-                      ? Opacity(opacity: 0.0)
-                      : Image.network(song.imageUrl),
-                  title: Text(song.name,
-                      style: TextStyle(
-                          fontFamily: 'Rubik Medium', fontSize: 16.0)),
-                  subtitle: Text(
-                    song.artist == null ? "" : song.artist,
-                    style: TextStyle(fontSize: 12.0),
-                  )),
-            ],
-          ),
-        ),
-      ),
-    );
+    if (song.artist != null && song.imageUrl != null) {
+      return _buildCompleteSongTile();
+    } else {
+      return _buildSongNameTile();
+    }
   }
 
   Container buildContainer() {
@@ -48,5 +27,55 @@ class SongListItem extends StatelessWidget {
           ),
           onPressed: () {},
         ));
+  }
+
+  Widget _buildSongNameTile() {
+    return Dismissible(
+      key: Key(song.name),
+      direction: DismissDirection.endToStart,
+      background: buildContainer(),
+      onDismissed: (direction) => dismissFunction(),
+      child: GestureDetector(
+        child: Card(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              ListTile(
+                title: Text(song.name,
+                    style:
+                        TextStyle(fontFamily: 'Rubik Medium', fontSize: 16.0)),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildCompleteSongTile() {
+    return Dismissible(
+      key: Key(song.name),
+      direction: DismissDirection.endToStart,
+      background: buildContainer(),
+      onDismissed: (direction) => dismissFunction(),
+      child: GestureDetector(
+        child: Card(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              ListTile(
+                  leading: Image.network(song.imageUrl),
+                  title: Text(song.name,
+                      style: TextStyle(
+                          fontFamily: 'Rubik Medium', fontSize: 16.0)),
+                  subtitle: Text(
+                    song.artist,
+                    style: TextStyle(fontSize: 12.0),
+                  )),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

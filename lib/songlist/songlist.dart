@@ -5,7 +5,6 @@ import 'package:setlist/colors.dart';
 import 'package:setlist/model/setlist.dart';
 import 'package:setlist/model/song.dart';
 import 'package:setlist/model/track_result.dart';
-import 'package:setlist/songlist/addsong_item.dart';
 import 'package:setlist/songlist/songlist_bloc.dart';
 import 'package:setlist/songlist/songlist_item.dart';
 import 'package:setlist/widget/search_bar.dart';
@@ -45,86 +44,29 @@ class SongListState extends State<SongList> {
   @override
   Widget build(BuildContext context) {
     if (searchBar.isSearching) {
-      return StreamBuilder<SearchResult>(
-          stream: _songListBloc.searchResults,
-          builder:
-              (BuildContext context, AsyncSnapshot<SearchResult> snapshot) {
-            if (snapshot == null || snapshot.data == null) {
-              return Scaffold(
-                  backgroundColor: backgroundColor,
-                  appBar: searchBar.build(context));
-            } else {
-              return _searchList(snapshot.data.searchItems);
-            }
-          });
+      return _buildSearchScreen();
     } else {
       searchBar.controller.clear();
-
-      return StreamBuilder<SetListResult>(
-        stream: _songListBloc.setList,
-        builder: (BuildContext context, AsyncSnapshot<SetListResult> snapshot) {
-          if (snapshot.data == null) {
-            return Scaffold(
-                backgroundColor: backgroundColor,
-                appBar: searchBar.build(context),
-                body: Center(child: CircularProgressIndicator()));
-          } else {
-            return _songList(snapshot.data.results);
-          }
-        },
-      );
+      return _buildSongListScreen();
     }
-  }
-
-  Widget _songList(SetList setList) {
-    return Scaffold(
-        backgroundColor: backgroundColor,
-        appBar: searchBar.build(context),
-        body: ListView.builder(
-          itemBuilder: (BuildContext context, int index) {
-            if (setList == null || setList.songList.length == 0) {
-              return AddSongItem(_songListBloc);
-            } else {
-              return SongListItem(setList.songList[index],
-                  () => _songListBloc.deleteSong.add(setList.songList[index]));
-            }
-          },
-          itemCount: setList == null ? 0 : setList.songList.length,
-        ));
-  }
-
-  Widget _searchList(List<TrackResult> searchItems) {
-    return Scaffold(
-        backgroundColor: backgroundColor,
-        appBar: searchBar.build(context),
-        body: ListView.builder(
-          itemBuilder: (BuildContext context, int index) {
-            if (searchItems == null || searchItems.length == 0) {
-            } else {
-              return SearchItem(searchItems[index], (TrackResult trackResult) {
-                _songListBloc.addSong.add(Song(trackResult.name,
-                    trackResult.artist, trackResult.imageUrl));
-              });
-            }
-          },
-          itemCount: searchItems == null ? 0 : searchItems.length,
-        ));
   }
 
   AppBar _buildAppBar(BuildContext context) {
     return AppBar(
+      iconTheme: IconThemeData(color: Colors.white70),
       actions: <Widget>[
         _getAddButton(context),
         searchBar.getSearchAction(context)
       ],
-      backgroundColor: primaryColor,
       title: Text(_setList.name),
     );
   }
 
   IconButton _getAddButton(BuildContext context) {
     return new IconButton(
-        icon: new Icon(Icons.add),
+        icon: new Icon(
+          Icons.add,
+        ),
         onPressed: () {
           _showAddItemDialog();
         });
@@ -142,6 +84,7 @@ class SongListState extends State<SongList> {
             title: Text(
               "Add Song",
               textAlign: TextAlign.center,
+              style: TextStyle(fontFamily: 'Rubik Medium'),
             ),
             children: <Widget>[
               Form(
@@ -159,15 +102,17 @@ class SongListState extends State<SongList> {
                         decoration: InputDecoration(
                             border: InputBorder.none,
                             contentPadding:
-                                EdgeInsets.fromLTRB(16.0, 0.0, 0.0, 16.0),
+                                EdgeInsets.fromLTRB(16.0, 0.0, 0.0, 8.0),
+                            hintStyle: TextStyle(fontFamily: 'Rubik Light'),
                             hintText: "Name"),
                       ),
                       TextFormField(
                         controller: songArtistController,
                         decoration: InputDecoration(
-                            border: InputBorder.none,
                             contentPadding:
-                                EdgeInsets.fromLTRB(16.0, 0.0, 0.0, 16.0),
+                                EdgeInsets.fromLTRB(16.0, 0.0, 0.0, 8.0),
+                            border: InputBorder.none,
+                            hintStyle: TextStyle(fontFamily: 'Rubik Light'),
                             hintText: "Artist"),
                       ),
                       RaisedButton(
@@ -175,7 +120,9 @@ class SongListState extends State<SongList> {
                             24.0, 0.0, 24.0, 0.0),
                         child: Text(
                           "Submit",
-                          style: TextStyle(color: Colors.white70),
+                          style: TextStyle(
+                              color: Colors.white70,
+                              fontFamily: 'Rubik Medium'),
                         ),
                         onPressed: () {
                           if (_formKey.currentState.validate()) {
@@ -183,11 +130,8 @@ class SongListState extends State<SongList> {
                                 context,
                                 Song(songNameController.text,
                                     songArtistController.text));
-                            songNameController.dispose();
-                            songArtistController.dispose();
                           }
                         },
-                        color: primaryColor,
                       )
                     ],
                   ))
@@ -204,5 +148,62 @@ class SongListState extends State<SongList> {
   void dispose() {
     super.dispose();
     _songListBloc.dispose();
+  }
+
+  Widget _buildSearchScreen() {
+    return StreamBuilder<SearchResult>(
+        stream: _songListBloc.searchResults,
+        builder: (BuildContext context, AsyncSnapshot<SearchResult> snapshot) {
+          if (snapshot == null || snapshot.data == null) {
+            return Scaffold(
+                backgroundColor: backgroundColor,
+                appBar: searchBar.build(context));
+          } else {
+            return Scaffold(
+                backgroundColor: backgroundColor,
+                appBar: searchBar.build(context),
+                body: ListView.builder(
+                  itemBuilder: (_, int index) {
+                    return SearchItem(snapshot.data.searchItems[index],
+                        (TrackResult trackResult) {
+                      _songListBloc.addSong.add(Song(trackResult.name,
+                          trackResult.artist, trackResult.imageUrl));
+                    });
+                  },
+                  itemCount: snapshot.data.searchItems == null
+                      ? 0
+                      : snapshot.data.searchItems.length,
+                ));
+          }
+        });
+  }
+
+  Widget _buildSongListScreen() {
+    return StreamBuilder<SetListResult>(
+      stream: _songListBloc.setList,
+      builder: (BuildContext context, AsyncSnapshot<SetListResult> snapshot) {
+        if (snapshot.data == null) {
+          return Scaffold(
+              backgroundColor: backgroundColor,
+              appBar: searchBar.build(context),
+              body: Center(child: CircularProgressIndicator()));
+        } else {
+          return Scaffold(
+              backgroundColor: backgroundColor,
+              appBar: searchBar.build(context),
+              body: ListView.builder(
+                itemBuilder: (_, int index) {
+                  return SongListItem(
+                      snapshot.data.results.songList[index],
+                      () => _songListBloc.deleteSong
+                          .add(snapshot.data.results.songList[index]));
+                },
+                itemCount: snapshot.data.results == null
+                    ? 0
+                    : snapshot.data.results.songList.length,
+              ));
+        }
+      },
+    );
   }
 }

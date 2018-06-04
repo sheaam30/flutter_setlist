@@ -128,6 +128,7 @@ class SetListStateWidget extends State<SetListWidget> {
       title: Text(
         "Add Set",
         textAlign: TextAlign.center,
+        style: TextStyle(fontFamily: 'Rubik Medium'),
       ),
       children: <Widget>[
         Form(
@@ -144,22 +145,23 @@ class SetListStateWidget extends State<SetListWidget> {
                 },
                 decoration: InputDecoration(
                     border: InputBorder.none,
-                    contentPadding: EdgeInsets.fromLTRB(16.0, 0.0, 0.0, 16.0),
+                    errorStyle: TextStyle(fontFamily: 'Rubik Light'),
+                    contentPadding: EdgeInsets.fromLTRB(16.0, 0.0, 0.0, 8.0),
+                    hintStyle: TextStyle(fontFamily: 'Rubik Light'),
                     hintText: "Enter Set Name"),
               ),
               RaisedButton(
                 padding: EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 0.0),
                 child: Text(
                   "Submit",
-                  style: TextStyle(color: Colors.white70),
+                  style: TextStyle(
+                      color: Colors.white70, fontFamily: 'Rubik Medium'),
                 ),
                 onPressed: () {
                   if (_formKey.currentState.validate()) {
                     Navigator.pop(context, myController.text);
-                    myController.dispose();
                   }
                 },
-                color: primaryColor,
               )
             ],
           ),
