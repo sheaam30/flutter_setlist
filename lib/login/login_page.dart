@@ -32,7 +32,6 @@ class _LoginPageState extends State<LoginPage> {
           children: <Widget>[
             Image.asset(
               "assets/setlist_icon.png",
-              color: primaryColor,
               height: 100.0,
               width: 100.0,
             ),

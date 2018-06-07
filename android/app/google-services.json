@@ -44,15 +44,15 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
+              "client_id": "700827434064-hdh4dssa00ehq9tfl136p736v8iopd3r.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
               "client_id": "700827434064-b6urbn4lp933sb3cghsk0i5i8k6sovot.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
                 "bundle_id": "shealabs.setlist"
               }
-            },
-            {
-              "client_id": "700827434064-hdh4dssa00ehq9tfl136p736v8iopd3r.apps.googleusercontent.com",
-              "client_type": 3
             }
           ]
         },
