@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:setlist/colors.dart';
 import 'package:setlist/model/track_result.dart';
 
 class SearchItem extends StatelessWidget {
@@ -15,7 +16,12 @@ class SearchItem extends StatelessWidget {
         children: <Widget>[
           ListTile(
               trailing: ActionChip(
-                label: Text("Add"),
+                label: Text(
+                  "Add",
+                  style:
+                      TextStyle(color: Colors.white, fontFamily: 'Rubik Light'),
+                ),
+                backgroundColor: primaryColor,
                 onPressed: () => addFunction(trackResult),
               ),
               leading: Image.network(trackResult.imageUrl),

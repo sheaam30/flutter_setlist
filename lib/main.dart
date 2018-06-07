@@ -65,11 +65,6 @@ class MyApp extends StatelessWidget {
         accentColor: primaryColor,
         primaryTextTheme: TextTheme(title: TextStyle(color: Colors.white70)),
         backgroundColor: backgroundColor,
-        chipTheme: ChipThemeData.fromDefaults(
-            primaryColor: Colors.white,
-            labelStyle:
-                TextStyle(color: Colors.white, fontFamily: 'Rubik Light'),
-            secondaryColor: secondaryColor),
         fontFamily: "Rubik Regular");
   }
 }
