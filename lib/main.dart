@@ -13,7 +13,7 @@ Future<void> main() async {
   final FirebaseApp app = await FirebaseApp.configure(
     name: 'SetList',
     options: const FirebaseOptions(
-      googleAppID: '1:700827434064:android:33d42b35441389ec',
+      googleAppID: '1:700827434064:ios:33d42b35441389ec',
       gcmSenderID: '700827434064',
       databaseURL: 'https://setlist-91ac5.firebaseio.com',
       apiKey: 'AIzaSyD5MKxqKu3sLzyTuhARIKLHNdasA08dm-A',

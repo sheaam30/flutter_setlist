@@ -51,7 +51,7 @@ class Api {
   Stream<List<SetList>> fetchSetListsForUser(String userId) {
     return _setsRef
         .where('userId', isEqualTo: userId)
-        .snapshots
+        .snapshots()
         .asyncMap((QuerySnapshot snapshot) {
       return snapshot.documents.map((DocumentSnapshot document) {
         return SetList.fromSnapshot(document);
@@ -63,7 +63,7 @@ class Api {
     return _setsRef
         .where('userId', isEqualTo: userId)
         .where('name', isEqualTo: setListName)
-        .snapshots
+        .snapshots()
         .asyncMap((QuerySnapshot snapshot) {
       return SetList.fromSnapshot(snapshot.documents.first);
     });

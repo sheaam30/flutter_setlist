@@ -1,6 +1,4 @@
-cloud_firestore=/Users/adamshea/.pub-cache/hosted/pub.dartlang.org/cloud_firestore-0.6.3/
-firebase_auth=/Users/adamshea/.pub-cache/hosted/pub.dartlang.org/firebase_auth-0.5.10/
-firebase_core=/Users/adamshea/.pub-cache/hosted/pub.dartlang.org/firebase_core-0.2.3/
-firebase_database=/Users/adamshea/.pub-cache/hosted/pub.dartlang.org/firebase_database-0.4.6/
-google_sign_in=/Users/adamshea/.pub-cache/hosted/pub.dartlang.org/google_sign_in-3.0.3+1/
-shared_preferences=/Users/adamshea/.pub-cache/hosted/pub.dartlang.org/shared_preferences-0.4.1/
+cloud_firestore=/Users/adamshea/.pub-cache/hosted/pub.dartlang.org/cloud_firestore-0.7.3/
+firebase_auth=/Users/adamshea/.pub-cache/hosted/pub.dartlang.org/firebase_auth-0.5.11/
+firebase_core=/Users/adamshea/.pub-cache/hosted/pub.dartlang.org/firebase_core-0.2.4/
+google_sign_in=/Users/adamshea/.pub-cache/hosted/pub.dartlang.org/google_sign_in-3.0.4/
